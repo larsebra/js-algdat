@@ -1,0 +1,8 @@
+{
+  "name": "js-algdat",
+  "version": "0.0.1",
+  "module": "src/index.js",
+  "devDependencies": {
+    "bun-types": "latest"
+  }
+}

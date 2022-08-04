@@ -1,0 +1,11 @@
+[bundle]
+saveTo = "node_modules.bun"
+# Don't need this if `framework` is set, but showing it here as an example anyway
+entryPoints = ["./src/index.ts"]
+
+[debug]
+# When navigating to a blob: or src: link, open the file in your editor
+# If not, it tries $EDITOR or $VISUAL
+# If that still fails, it will try Visual Studio Code, then Sublime Text, then a few others
+# This is used by Bun.openInEditor()
+editor = "code"
