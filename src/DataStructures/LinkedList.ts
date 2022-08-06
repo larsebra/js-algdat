@@ -55,7 +55,7 @@ export default class LinkedList<T>{
       this.last = this.first;
     }
     else{
-      let newFirst = new ListNode(element, this.first);
+      const newFirst = new ListNode(element, this.first);
       this.first = newFirst;
     }
 
@@ -75,7 +75,7 @@ export default class LinkedList<T>{
       return this.unshift(element);
     }
 
-    let newLast = new ListNode(element, null);
+    const newLast = new ListNode(element, null);
     this.last.setNext(newLast);
     this.last = newLast;
 
@@ -93,15 +93,15 @@ export default class LinkedList<T>{
    */
   shift(){
     if(this.isEmpty()){
-      let e = new Error();
+      const e = new Error();
       e.name = "EmptyListError";
       e.message = "Cannot remove element, list is empty";
       throw e;
     }
-    let prevFirst = this.first;
+    const prevFirst = this.first;
     this.first = prevFirst.getNext();
     prevFirst.setNext(null);//remove references.
-    var returnVal = prevFirst.getVal();
+    const returnVal = prevFirst.getVal();
     prevFirst.setVal(null); //remove references.
     this.length--;
     return returnVal;
@@ -116,7 +116,7 @@ export default class LinkedList<T>{
    */
   peekFirst(){
     if(this.isEmpty()){
-      var e = new Error();
+      const e = new Error();
       e.name = "EmptyListError";
       e.message = "Cannot peek, list is empty";
       throw e;
@@ -133,7 +133,7 @@ export default class LinkedList<T>{
    */
   peekLast(){
     if(this.isEmpty()){
-      var e = new Error();
+      const e = new Error();
       e.name = "EmptyListError";
       e.message = "Cannot peek, list is empty";
       throw e;
