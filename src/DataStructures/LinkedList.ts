@@ -95,7 +95,7 @@ export default class LinkedList<T>{
     if(this.isEmpty()){
       const e = new Error();
       e.name = "EmptyListError";
-      e.message = "Cannot remove element, list is empty";
+      e.message = "Cannot remove element, list is empty"; 
       throw e;
     }
     const prevFirst = this.first;
