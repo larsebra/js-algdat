@@ -1,4 +1,3 @@
-
 /**
  * Class representing a ring buffer. It uses an array of a given size as its base structure.
  *
@@ -17,8 +16,8 @@
  *
  * @author Lars Erik Bratlie <lars00.brat@gmail.com>
  */
-export default class RingBuffer{
-  private buffer: Array<any>;
+export default class RingBuffer<T> {
+  private buffer: Array<T>;
   private wHdr: number;
   private rHdr: number;
   private count: number;
@@ -30,10 +29,10 @@ export default class RingBuffer{
    * @param  {Number} size                 Sets the allowed size of the ring buffer.
    * @param  {Boolean} allowBufferOveflow  If set to true writehead can overwrite the elements that has not yet been read.
    */
-  constructor(size, allowBufferOveflow){
+  constructor(size, allowBufferOveflow) {
     this.buffer = new Array(size).fill(null);
-    this.wHdr = Math.round(size/2);//Just start in the middle
-    this.rHdr = Math.round(size/2);
+    this.wHdr = Math.round(size / 2); //Just start in the middle
+    this.rHdr = Math.round(size / 2);
     this.count = 0;
     this.bufferOverwrite = allowBufferOveflow;
   }
@@ -43,14 +42,13 @@ export default class RingBuffer{
    *
    * @return {Object}  The list object starting at beginning and ending and list size()
    */
-  *[Symbol.iterator](){
-      let iter_next = this.rHdr;
-      while(iter_next !== this.wHdr){
-        yield this.buffer[iter_next];
-        iter_next++
-      }
+  *[Symbol.iterator]() {
+    let iter_next = this.rHdr;
+    while (iter_next !== this.wHdr) {
+      yield this.buffer[iter_next];
+      iter_next++;
+    }
   }
-
 
   /**
    * write - Writes an element to the current write header location. If bufferOverwrite is
@@ -63,9 +61,9 @@ export default class RingBuffer{
    * @return {Number}       The new number of element, if the write was sucessfull.
    * @throws {FullBufferError} if queue is full and bufferOverwrite is false.
    */
-  write(element){
-    if(this.isFull() && !this.bufferOverwrite){
-      var e = new Error();
+  write(element) {
+    if (this.isFull() && !this.bufferOverwrite) {
+      const e = new Error();
       e.name = "FullBufferError";
       e.message = "Cannot write to buffer, buffer is full";
       throw e;
@@ -73,7 +71,7 @@ export default class RingBuffer{
     this.buffer[this.wHdr] = element;
     this.incrWHdr();
     this.incrCount();
-    return this.size()
+    return this.size();
   }
 
   /**
@@ -83,14 +81,14 @@ export default class RingBuffer{
    * @return {Object}  The element in the buffer, if the read was sucessfull.
    * @throws {EmptyBufferError} if buffer is empty.
    */
-  read(){
-    if(this.isEmpty()){
-      var e = new Error();
+  read() {
+    if (this.isEmpty()) {
+      const e = new Error();
       e.name = "EmptyBufferError";
       e.message = "Cannot read from buffer, buffer is empty";
       throw e;
     }
-    var returnElement = this.buffer[this.rHdr];
+    const returnElement = this.buffer[this.rHdr];
     this.buffer[this.rHdr] = null; //Remove references. No memory leaks
     this.incrRHdr();
     this.decrCount();
@@ -103,7 +101,7 @@ export default class RingBuffer{
    *
    * @return {undefined}  nothing
    */
-  incrWHdr(){
+  incrWHdr() {
     this.wHdr++;
     this.wHdr = this.wHdr % this.buffer.length;
   }
@@ -114,7 +112,7 @@ export default class RingBuffer{
    *
    * @return {undefined}  nothing
    */
-  incrRHdr(){
+  incrRHdr() {
     this.rHdr++;
     this.rHdr = this.rHdr % this.buffer.length;
   }
@@ -125,12 +123,11 @@ export default class RingBuffer{
    *
    * @return {undefined}  nothing
    */
-  incrCount(){
-    if(!this.isFull()){
+  incrCount() {
+    if (!this.isFull()) {
       this.count++;
     }
   }
-
 
   /**
    * decrCount - Private method for decrement the number of elements in the buffer.
@@ -138,8 +135,8 @@ export default class RingBuffer{
    *
    * @return {undefined}  nothing
    */
-  decrCount(){
-    if(!this.isEmpty()){
+  decrCount() {
+    if (!this.isEmpty()) {
       this.count--;
     }
   }
@@ -151,9 +148,9 @@ export default class RingBuffer{
    * @return {Object}  The element pointet to by the readhead.
    * @throws {EmptyBufferError} if the buffer is empty
    */
-  peekAtRHdr(){
-    if(this.isEmpty()){
-      var e = new Error();
+  peekAtRHdr() {
+    if (this.isEmpty()) {
+      const e = new Error();
       e.name = "EmptyBufferError";
       e.message = "Cannot peak, buffer is empty";
       throw e;
@@ -170,14 +167,14 @@ export default class RingBuffer{
    * @return {Object}  The element pointed to by the write head.
    * @throws {EmptyBufferError} if the buffer is empty
    */
-  peekAtWHdr(){
-    if(this.isEmpty()){
-      var e = new Error();
+  peekAtWHdr() {
+    if (this.isEmpty()) {
+      const e = new Error();
       e.name = "EmptyBufferError";
       e.message = "Cannot peak, buffer is empty";
       throw e;
     }
-    var index = (this.wHdr === 0) ? (this.buffer.length - 1): (this.wHdr -1);
+    const index = this.wHdr === 0 ? this.buffer.length - 1 : this.wHdr - 1;
     return this.buffer[index];
   }
 
@@ -188,7 +185,7 @@ export default class RingBuffer{
    *
    * @return {Number}  Number of elements in the buffer
    */
-  size(){
+  size() {
     return this.count;
   }
 
@@ -197,8 +194,8 @@ export default class RingBuffer{
    *
    * @return {Boolean}  true if the buffer hold no elements, false if there is any written elements that is not yet read.
    */
-  isEmpty(){
-    return (this.count === 0)? true: false;
+  isEmpty() {
+    return this.count === 0 ? true : false;
   }
 
   /**
@@ -206,7 +203,7 @@ export default class RingBuffer{
    *
    * @return {Boolean} true if the queue is full, otherwise false.
    */
-  isFull(){
-    return (this.buffer.length === this.count)? true: false;
+  isFull() {
+    return this.buffer.length === this.count ? true : false;
   }
 }
