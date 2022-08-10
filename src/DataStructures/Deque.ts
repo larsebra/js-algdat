@@ -4,6 +4,7 @@ import DoubleLinkedList from "./DoubleLinkedList";
  * unshift, shift, push and pop for enqueueing and dequeueing at the ends.
  * @class
  */
+
 export default class Deque<T = any> {
   private q: DoubleLinkedList<T>;
   /**
