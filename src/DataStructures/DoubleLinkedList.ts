@@ -19,7 +19,7 @@ import DoubleLinkedListNode from "src/Common/DoubleLinkedListNode.js";
  *
  * @todo make toString
  */
-export default class DoubleLinkedList<T>{
+export default class DoubleLinkedList<T = any> {
   private first: DoubleLinkedListNode<T>;
   private last: DoubleLinkedListNode<T>;
   private length: number;
@@ -28,7 +28,7 @@ export default class DoubleLinkedList<T>{
    * variables.
    *
    */
-  constructor(){
+  constructor() {
     this.first = null;
     this.last = null;
     this.length = 0;
@@ -43,13 +43,12 @@ export default class DoubleLinkedList<T>{
    *
    * @return {Object}  The list object starting at beginning and ending and list size()
    */
-  *[Symbol.iterator](){
-      let iter_next = this.first;
-      do{
-        yield iter_next.getVal();
-        iter_next = iter_next.getNext();
-      }
-      while(iter_next !== this.first)
+  *[Symbol.iterator]() {
+    let iter_next = this.first;
+    do {
+      yield iter_next.getVal();
+      iter_next = iter_next.getNext();
+    } while (iter_next !== this.first);
   }
 
   /**
@@ -58,10 +57,10 @@ export default class DoubleLinkedList<T>{
    * @param  {Object} element The element to add.
    * @return {Number}         The new size of the list
    */
-  unshift(element: T){
-    const newNode = new DoubleLinkedListNode<T>(element, null,null);
+  unshift(element: T) {
+    const newNode = new DoubleLinkedListNode<T>(element, null, null);
 
-    if(this.size() === 0){
+    if (this.size() === 0) {
       //New element points to itself, if list has one element
       newNode.setNext(newNode);
       newNode.setPrev(newNode);
@@ -70,8 +69,7 @@ export default class DoubleLinkedList<T>{
       //when list has one element
       this.first = newNode;
       this.last = this.first;
-    }
-    else{
+    } else {
       //Temp var
       const prevFirst = this.first;
 
@@ -98,10 +96,10 @@ export default class DoubleLinkedList<T>{
    * @param  {Object} element The element to add.
    * @return {Number}         The new size of the list
    */
-  push(element: T){
-    const newNode = new DoubleLinkedListNode<T>(element, null,null);
+  push(element: T) {
+    const newNode = new DoubleLinkedListNode<T>(element, null, null);
 
-    if(this.size() === 0){
+    if (this.size() === 0) {
       //New element points to itself, if list has one element
       newNode.setNext(newNode);
       newNode.setPrev(newNode);
@@ -110,8 +108,7 @@ export default class DoubleLinkedList<T>{
       //when list has one element
       this.first = newNode;
       this.last = this.first;
-    }
-    else{
+    } else {
       //Temp variable
       const prevLast = this.last;
 
@@ -154,27 +151,29 @@ export default class DoubleLinkedList<T>{
    * @throws {RangeError} if given index is out of range.
    * @throws {EmptyListError} if list is empty
    */
-  addInPosition(val, index){
-    if((index > 0) && this.isEmpty()){
+  addInPosition(val, index) {
+    if (index > 0 && this.isEmpty()) {
       const e = new Error();
       e.name = "EmptyListError";
-      e.message = "Cannot add element at index "+ index +", list is empty";
+      e.message = "Cannot add element at index " + index + ", list is empty";
       throw e;
     }
-    if(!((0 <= index) && (index <= this.size()))){
+    if (!(0 <= index && index <= this.size())) {
       const e = new RangeError();
       e.name = "IndexOutOfBoundsError";
-      e.message = `Cannot add element in index ${index}, allowed range ${0 - this.size() - 1}`;
+      e.message = `Cannot add element in index ${index}, allowed range ${
+        0 - this.size() - 1
+      }`;
       throw e;
     }
 
     //If adding in the first position, just call add first
-    if(index === 0){
+    if (index === 0) {
       return this.unshift(val);
     }
 
     //If adding in after last position, just call add last
-    if(index === this.size()){
+    if (index === this.size()) {
       return this.push(val);
     }
 
@@ -182,9 +181,11 @@ export default class DoubleLinkedList<T>{
     const oldElementAtPos = this.getAtPosition(index);
 
     //Set pointer for the new element
-    const newElement = new DoubleLinkedListNode(val,
-                              oldElementAtPos.getPrev(),
-                              oldElementAtPos);
+    const newElement = new DoubleLinkedListNode(
+      val,
+      oldElementAtPos.getPrev(),
+      oldElementAtPos
+    );
 
     //Set the next reference of previous relative to new node.
     oldElementAtPos.getPrev().setNext(newElement);
@@ -212,21 +213,23 @@ export default class DoubleLinkedList<T>{
    * @throws {RangeError} if given index is < 0 or > size().
    * @throws {EmptyListError} if list is empty.
    */
-  getAtPosition(index){
-    if(this.isEmpty()){
+  getAtPosition(index) {
+    if (this.isEmpty()) {
       const e = new Error();
       e.name = "EmptyListError";
       e.message = "Cannot remove element, list is empty";
       throw e;
     }
-    if(!((0 <= index) && (index < this.size()))){
+    if (!(0 <= index && index < this.size())) {
       const e = new RangeError();
       e.name = "IndexOutOfBoundsError";
-      e.message = `Cannot add element in index ${index}, allowed range s 0 - ${this.size() - 1}`;
+      e.message = `Cannot add element in index ${index}, allowed range s 0 - ${
+        this.size() - 1
+      }`;
       throw e;
     }
     let nextElement = this.first;
-    for(let i = 0; i < index; i++){
+    for (let i = 0; i < index; i++) {
       nextElement = nextElement.next;
     }
     return nextElement;
@@ -245,7 +248,7 @@ export default class DoubleLinkedList<T>{
    * @return {Object}       value at given position.
    * @throws {RangeError} if given index is < 0 or > size().
    */
-  getValAtPosition(index){
+  getValAtPosition(index) {
     return this.getAtPosition(index).getVal();
   }
 
@@ -257,8 +260,8 @@ export default class DoubleLinkedList<T>{
    * @return {Object}  The first object in the list.
    * @throws {EmptyListError}
    */
-  shift(){
-    if(this.isEmpty()){
+  shift() {
+    if (this.isEmpty()) {
       const e = new Error();
       e.name = "EmptyListError";
       e.message = "Cannot remove element, list is empty";
@@ -269,11 +272,10 @@ export default class DoubleLinkedList<T>{
     const returnVal = prevFirst.getVal();
 
     //If one element left, just return the value and reset pointers.
-    if(this.size() === 1){
+    if (this.size() === 1) {
       this.first = null;
       this.last = null;
-    }
-    else{
+    } else {
       //Set first to reference next element in line.
       this.first = prevFirst.getNext();
 
@@ -299,8 +301,8 @@ export default class DoubleLinkedList<T>{
    * @return {Object}  The last object in the list.
    * @throws {EmptyListError}
    */
-  pop(){
-    if(this.isEmpty()){
+  pop() {
+    if (this.isEmpty()) {
       const e = new Error();
       e.name = "EmptyListError";
       e.message = "Cannot remove element, list is empty";
@@ -308,7 +310,7 @@ export default class DoubleLinkedList<T>{
     }
 
     //If one element left, just return the value and reset pointers.
-    if(this.size() === 1){
+    if (this.size() === 1) {
       return this.shift();
     }
 
@@ -341,27 +343,29 @@ export default class DoubleLinkedList<T>{
    * @throws {RangeError} If the given index is not in range.
    * @throws {EmptyListError} If list is empty
    */
-  splice(index){
-    if(this.isEmpty()){
+  splice(index) {
+    if (this.isEmpty()) {
       const e = new Error();
       e.name = "EmptyListError";
       e.message = "Cannot remove element, list is empty";
       throw e;
     }
-    if(!((0 <= index) && (index < this.size()))){
+    if (!(0 <= index && index < this.size())) {
       const e = new RangeError();
       e.name = "IndexOutOfBoundsError";
-      e.message = `Cannot remove element at index  ${index} must be within bounds. Current allowed range is: 0 - ${this.size() - 1}`;
+      e.message = `Cannot remove element at index  ${index} must be within bounds. Current allowed range is: 0 - ${
+        this.size() - 1
+      }`;
       throw e;
     }
 
     //If removing the first position, just call remove first
-    if(index === 0){
+    if (index === 0) {
       return this.shift();
     }
 
     //If removing the last position, just call remove first
-    if(index === (this.size() - 1)){
+    if (index === this.size() - 1) {
       return this.pop();
     }
 
@@ -389,8 +393,8 @@ export default class DoubleLinkedList<T>{
    * @return {Object}  The first element in the list.
    * @throws EmptyListError
    */
-  peekFirst(){
-    if(this.isEmpty()){
+  peekFirst() {
+    if (this.isEmpty()) {
       const e = new Error();
       e.name = "EmptyListError";
       e.message = "Cannot peek, list is empty";
@@ -406,8 +410,8 @@ export default class DoubleLinkedList<T>{
    * @return {type}  description
    * @throws EmptyListError
    */
-  peekLast(){
-    if(this.isEmpty()){
+  peekLast() {
+    if (this.isEmpty()) {
       const e = new Error();
       e.name = "EmptyListError";
       e.message = "Cannot peek, list is empty";
@@ -421,8 +425,8 @@ export default class DoubleLinkedList<T>{
    *
    * @return {Boolean}  true if empty, else false.
    */
-  isEmpty(){
-    return (this.size() === 0) ? true: false;
+  isEmpty() {
+    return this.size() === 0 ? true : false;
   }
 
   /**
@@ -430,7 +434,7 @@ export default class DoubleLinkedList<T>{
    *
    * @return {Number}  number of elements in the list
    */
-  size(){
+  size() {
     return this.length;
   }
 }

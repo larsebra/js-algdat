@@ -1,31 +1,31 @@
-import LinkedList from "./LinkedList"
+import LinkedList from "./LinkedList";
 /*
   Class representing a stack structure. The stack is using a single linked list as base structure.
   @class
   @todo make it iterable;
 */
-class Stack<T>{
-  stack:LinkedList<T>;
+class Stack<T = any> {
+  stack: LinkedList<T>;
   /**
    * constructor - Creates an array as the base structure for the stack
    */
-  constructor(){
+  constructor() {
     this.stack = new LinkedList();
     this[Symbol.iterator] = this.stack[Symbol.iterator].bind(this.stack);
   }
 
   /**
-     * pop - Pops off the last added element of the stack
-     *
-     * @return {Unknown} returns the element at the top off the stack
-     * @throws {EmptyStackError} if array is empty
-     */
-  pop(){
-    if(this.isEmpty()){
-        var e = new Error();
-        e.name = "EmptyStackError";
-        e.message = "Cannot pop empty stack";
-        throw e;
+   * pop - Pops off the last added element of the stack
+   *
+   * @return {Unknown} returns the element at the top off the stack
+   * @throws {EmptyStackError} if array is empty
+   */
+  pop() {
+    if (this.isEmpty()) {
+      var e = new Error();
+      e.name = "EmptyStackError";
+      e.message = "Cannot pop empty stack";
+      throw e;
     }
     return this.stack.shift();
   }
@@ -36,7 +36,7 @@ class Stack<T>{
    * @param {Object} item - the item to be added
    * @return {number} returns the new number of elements in the stack
    */
-  push(item){
+  push(item) {
     return this.stack.unshift(item);
   }
 
@@ -45,7 +45,7 @@ class Stack<T>{
    *
    * @return {Number} returns the index of the top element
    */
-  top(){
+  top() {
     return this.stack.size() - 1;
   }
 
@@ -54,7 +54,7 @@ class Stack<T>{
    *
    * @return {Boolean} The index of the top element
    */
-  isEmpty(){
+  isEmpty() {
     return this.stack.isEmpty();
   }
 
@@ -63,7 +63,7 @@ class Stack<T>{
    *
    * @return {Number} The size of the stack
    */
-  size(){
+  size() {
     return this.stack.size();
   }
 
@@ -73,8 +73,8 @@ class Stack<T>{
    * @return {Object}  the top of the stack
    * @throws EmptyStackError if stack is empty
    */
-  peek(){
-    if(this.isEmpty()){
+  peek() {
+    if (this.isEmpty()) {
       var e = new Error();
       e.name = "EmptyStackError";
       e.message = "Cannot peek, stack is empty";
@@ -82,7 +82,6 @@ class Stack<T>{
     }
     return this.stack.peekFirst();
   }
-
 }
 
 export default Stack;

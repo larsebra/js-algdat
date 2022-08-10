@@ -4,7 +4,7 @@ import LinkedList from "./LinkedList";
  * enqueueing and dequeueing. This class does not have any limitiations on how many elements there can be in the list.
  * @class
  */
-export default class Queue<T> {
+export default class Queue<T = any> {
   private q: LinkedList<T>;
   /**
    * constructor - makes a array as a base structure

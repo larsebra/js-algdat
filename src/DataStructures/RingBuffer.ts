@@ -16,7 +16,7 @@
  *
  * @author Lars Erik Bratlie <lars00.brat@gmail.com>
  */
-export default class RingBuffer<T> {
+export default class RingBuffer<T = any> {
   private buffer: Array<T>;
   private wHdr: number;
   private rHdr: number;
