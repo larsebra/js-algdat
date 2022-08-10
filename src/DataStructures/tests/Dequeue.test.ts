@@ -1,5 +1,5 @@
 import { expect, it, describe } from "bun:test";
-import Deque from "./Deque";
+import Deque from "../Deque";
 
 describe("Deque", () => {
   const testArray = [
