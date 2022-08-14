@@ -1,6 +1,6 @@
 import { expect, describe, it } from "bun:test";
 import { randomArrayGenerator } from "src/Common/test-tools/ArraysTools";
-import Queue from "./Queue";
+import Queue from "../Queue";
 
 describe("Queue: this is tested with 100.000 random numbers", function () {
   const numOfEl = 100000;

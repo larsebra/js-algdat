@@ -1,6 +1,7 @@
 import { expect, describe, it } from "bun:test";
 import { randomIntegerInRange } from "src/Common/test-tools/Random";
-import DoubleLinkedList from "./DoubleLinkedList";
+import DoubleLinkedList from "../DoubleLinkedList";
+
 /**
  * TODO: fix tests that is not yet supported by bun
  */
