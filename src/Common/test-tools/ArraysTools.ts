@@ -11,12 +11,11 @@ import { randomIntegerInRange } from "./Random";
 
   @author Lars Erik Bratlie <lars00.brat@gmail.com>
 **/
-export function compareArray(array1,array2){
-  if(array1.length!=array2.length)
-    return false;
-  for(let i = 0; i < array1.length; i++){
-    if(array1[i] != array2[i]){
-        return false;
+export function compareArray(array1, array2) {
+  if (array1.length != array2.length) return false;
+  for (let i = 0; i < array1.length; i++) {
+    if (array1[i] != array2[i]) {
+      return false;
     }
   }
   return true;
@@ -32,15 +31,20 @@ export function compareArray(array1,array2){
  * @param  {Boolean} sameNumber       Allow sameNumber to occour.
  * @return {Array}                    An array filled with random numbers
  */
-export function randomArrayGenerator(range, numberOfElements, seed, negativeNumbers){
+export function randomArrayGenerator(
+  range: number,
+  numberOfElements: number,
+  seed: number,
+  negativeNumbers: boolean
+) {
   let array = new Array(numberOfElements);
   let i = 0;
   let randomNum;
-  
-  while(i < numberOfElements){
+
+  while (i < numberOfElements) {
     randomNum = randomIntegerInRange(range);
-    if(negativeNumbers){
-        randomNum = (Math.round(Math.random()) === 1) ? randomNum :-1 * randomNum;
+    if (negativeNumbers) {
+      randomNum = Math.round(Math.random()) === 1 ? randomNum : -1 * randomNum;
     }
     array[i] = randomNum;
     i++;

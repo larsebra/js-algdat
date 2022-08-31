@@ -1,7 +1,7 @@
 /**
 @function swap
 
-Swaps two items in the array. This is not a pure function, this function changes the array.
+Swaps two items in the array. This function changes the array.
 
 @param {Array} array - The array that is going to be sorted. The input array is not tampered with or changed in anyway.
 @param {Number} index1 - The first element to swap
@@ -10,8 +10,8 @@ Swaps two items in the array. This is not a pure function, this function changes
 
 @author Lars Erik Bratlie <lars00.brat@gmail.com>
 **/
-function swap(array, index1, index2){
-  if(index1 === index2){
+function swap(array, index1, index2) {
+  if (index1 === index2) {
     return;
   }
   var temp = array[index1];
