@@ -1,12 +1,11 @@
-
 /**
  * Class representing a node
  */
 class Node<T> {
-  value:T;
+  value: T;
 
-  constructor(value){
-    this.setVal(value);
+  constructor(value: T) {
+    this.value = value;
   }
 
   /**
@@ -15,7 +14,7 @@ class Node<T> {
    * @param  {Object} value the value the node is representing
    * @return {void} none.
    */
-  setVal(value){
+  setVal(value) {
     this.value = value;
   }
 
@@ -24,7 +23,7 @@ class Node<T> {
    *
    * @return {Object}  returns the value of the node
    */
-  getVal(){
+  getVal() {
     return this.value;
   }
 }

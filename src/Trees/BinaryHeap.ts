@@ -1,6 +1,5 @@
+import { ComparatorType } from "src/Common/interfaces";
 import swap from "src/Common/Swap";
-
-type ComparatorType<T> = (a: T, b: T) => number;
 /**
  * Heap implemented with an array. It can either be a binary min heap or a binary max heap.
  * Chosing between min heap or max heap is done by passing comparator function to the constructor that returns a boolean value.
@@ -157,7 +156,7 @@ export default class BinaryHeap<T = any> {
   }
 
   /**
-   * Currently not in use. The swap down part of the extraction method of a binary heap, implemented with recursion funcntion
+   * Currently not in use. The swap down part of the extraction method of a binary heap, implemented as a recursion function
    *
    * complexity: O(log(n))
    *
