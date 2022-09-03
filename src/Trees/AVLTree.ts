@@ -187,7 +187,7 @@ export default class AVLTree<T> {
       }
       //Else just put the new node in place as left child of current node to add in
       else {
-        root.setLeftChild(newNode); //This also sets the height
+        root.setLeftChild(newNode); // This also sets the height
       }
     }
     //Else the new node must be larger, go down right subtree.

@@ -5,7 +5,7 @@ import { dijkstras } from "../Dijstras";
 describe("Dijstras Shortest Path Algorithm", function () {
   it("Should find the shortest path", function () {
     var graph1 = [
-      /*  A   B   C   D   E */
+      /*        A  B   C   D  E */
       /* A */ [-1, 1, -1, -1, 5],
       /* B */ [-1, -2, 1, -1, -1],
       /* C */ [-1, -1, -3, 1, -1],
@@ -18,7 +18,7 @@ describe("Dijstras Shortest Path Algorithm", function () {
     expect(compareArray(actualShortestPath, dijstrasShortestPath)).toBe(true);
 
     var graph2 = [
-      /*  A   B   C   D   E */
+      /*        A  B   C   D  E */
       /* A */ [-1, 1, -1, -1, 4],
       /* B */ [-1, -2, 1, -1, -1],
       /* C */ [-1, -1, -3, 1, -1],

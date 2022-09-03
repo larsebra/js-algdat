@@ -17,8 +17,6 @@ import BinaryHeap from "src/Trees/BinaryHeap";
  *                   `--`-'
  *
  * dijkstras - This an implementation of dijkstras algorithm for finding the shortest path between two nodes in a graph.
- * The algorithm works by always visiting the node that has the shortest distance from the start node and expanding the path in that
- * direction. When the goal node is visited, it must be the shortest path between the source and the goal.
  *
  * This implementation operates on a given 2d array of this form:
  *     +----+----+----+----+----+
@@ -43,8 +41,7 @@ import BinaryHeap from "src/Trees/BinaryHeap";
  *
  * Implementation details:
  *  For priority queue this implementation uses a binaryheap. If nodes with equal cost paths are added, the first node added
- *  is served first, then the second, etc.. The implementation of the binary heap is a bit slow, work is in progress to fix
- *  these issues.
+ *  is served first, then the second, etc..
  *
  *  To keep track of visited nodes it has a bolean Array with the size of the number of nodes in the graph, each index indicates
  *  whether or not the node has been visited.
