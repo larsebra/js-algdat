@@ -56,9 +56,8 @@ import BinaryHeap from "src/Trees/BinaryHeap";
  * @return {Array}           An array containing the shortest path, where the first element is the start node
  *                           and the last element is the goal node. If no path exists it will return a empty array.
  * @todo throw something
- * @author Lars Erik Bratlie <lars00.brat@gmail.com>
  */
-export function dijkstras(fromNode, toNode, graph) {
+export function dijkstras(fromNode: number, toNode: number, graph) {
   if (
     !(0 < fromNode && fromNode < graph.length) &&
     !(0 < toNode && toNode < graph.length)

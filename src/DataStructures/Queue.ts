@@ -58,7 +58,7 @@ export default class Queue<T = any> {
   /**
    * peekLast - peeks at the first element in line
    *
-   * @return {Object}  returns the first element in line.
+   * @return {T}  returns the first element in line.
    */
   peekLast() {
     if (this.isEmpty()) {
