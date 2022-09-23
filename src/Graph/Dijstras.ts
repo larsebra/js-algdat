@@ -22,18 +22,18 @@ import BinaryHeap from "src/Trees/BinaryHeap";
  *     +----+----+----+----+----+
  *     |    |  A |  B |  C |  D |
  *     +------------------------+
- *     |  A | -1 |  X |  X |  X |
+ *     |  A |  i |  X |  X |  X |
  *     +------------------------+
- *     |  B |  X | -1 |  X |  X |
+ *     |  B |  X |  i |  X |  X |
  *     +------------------------+
- *     |  C |  X |  X | -1 |  X |
+ *     |  C |  X |  X |  i |  X |
  *     +------------------------+
- *     |  D |  X |  X |  X | -1 |
+ *     |  D |  X |  X |  X |  i |
  *     +----+----+----+----+----+
  *
  * Here A, B, C, D denotes the nodes in the graph, the letter x is a number representing cost, and whether or not there is a
- * path between the nodes. If there exists a path between nodes A and B there must be a number > -1 in the cell [A][B], if the
- * number in the cell is negative, there is assumed that a path between the nodes does not exist.
+ * path between the nodes. If there exists a path between nodes A and B there must be a number < infinity (i) in the cell [A][B], if the
+ * number in the cell is infinity, there is assumed that a path between the nodes does not exist.
  * Further, the graph is assumed to be directional, so each row denotes from and each column means to, so cell [C][A] means
  * there exists a directed path between C and A that goes from C to A with cost X; C ---X---> A.
  * The letters in the array are just for illustration purposes, the array should only contain numbers indicating cost on the
@@ -42,9 +42,6 @@ import BinaryHeap from "src/Trees/BinaryHeap";
  * Implementation details:
  *  For priority queue this implementation uses a binaryheap. If nodes with equal cost paths are added, the first node added
  *  is served first, then the second, etc..
- *
- *  To keep track of visited nodes it has a bolean Array with the size of the number of nodes in the graph, each index indicates
- *  whether or not the node has been visited.
  *
  * Time Complexity:
  *
@@ -55,26 +52,30 @@ import BinaryHeap from "src/Trees/BinaryHeap";
  * @param  {Array}  graph    The given graph to search in.
  * @return {Array}           An array containing the shortest path, where the first element is the start node
  *                           and the last element is the goal node. If no path exists it will return a empty array.
- * @todo throw something
+ *
  */
 export function dijkstras(fromNode: number, toNode: number, graph) {
   if (
-    !(0 < fromNode && fromNode < graph.length) &&
-    !(0 < toNode && toNode < graph.length)
+    !(0 <= fromNode && fromNode < graph.length) ||
+    !(0 <= toNode && toNode < graph.length)
   ) {
-    //Throw something
+    const e = new Error();
+    e.name = "OutOfBoundsError";
+    e.message = "fromNode or toNode is out of bounds";
+    throw e;
   }
+
   //Return array containing numbers indicating the shortest path.
-  var shortestPath = [];
+  let shortestPath = [];
   //Creating a binary heap as the priority queue.
-  var priQueue = new BinaryHeap(graph.length, (a, b) => {
+  const priQueue = new BinaryHeap(graph.length, (a, b) => {
     //The less than operator here will cause equal cost nodes to be visited in a fifo manner.
     return a.cost < b.cost ? -1 : 1;
   });
   //The node currently visited.
-  var currentNode = null;
+  let currentNode = null;
   //A boolean array used to mark visited node
-  var visited = new Array(graph.length).fill(false);
+  const visited = new Array(graph.length).fill(false);
   //Add the first node(source) to the queue.
   priQueue.add({ nodeNr: fromNode, cost: 0, cameFrom: null, NrOfHops: 0 });
 
@@ -83,7 +84,6 @@ export function dijkstras(fromNode: number, toNode: number, graph) {
     currentNode = priQueue.remove();
 
     //No need to visit a node two times.
-    //The shortest path to any node from start is visited first
     if (visited[currentNode.nodeNr]) {
       continue;
     }
@@ -94,8 +94,8 @@ export function dijkstras(fromNode: number, toNode: number, graph) {
     //Check if currentNode is the goal node, the shortest path must be reached.
     if (currentNode.nodeNr === toNode) {
       //Calculate the shortest path by traversing the found path backwards
-      var fromNode = currentNode;
-      var j = fromNode.NrOfHops;
+      let fromNode = currentNode;
+      let j = fromNode.NrOfHops;
       //Add each node in the path to the return array.
       while (fromNode !== null) {
         shortestPath[j--] = fromNode.nodeNr;
@@ -105,12 +105,12 @@ export function dijkstras(fromNode: number, toNode: number, graph) {
     }
 
     //Open Neighbour nodes and put them in the priority queue if they do not exists in it
-    for (var i = 0; i < graph.length; i++) {
-      //If neighbour node has allready been visited it does not have to be visited again,
-      //the shortest path to that node is allready found
-      if (graph[currentNode.nodeNr][i] < 0 || visited[i]) {
+    for (let i = 0; i < graph.length; i++) {
+      //Skip if not edge between
+      if (graph[currentNode.nodeNr][i] === Infinity) {
         continue;
       }
+
       priQueue.add({
         //Neighbour node nr relative to currentNode
         nodeNr: i,
