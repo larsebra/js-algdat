@@ -3,7 +3,7 @@ import { randomIntegerInRange } from "./Random";
 /**
   @function compareArray
 
-  Comparison function for testing wther two arrays are equal.
+  Comparison function for testing wether two arrays are equal.
 
   @param {Array} array1
   @param {Array} array2
@@ -11,10 +11,14 @@ import { randomIntegerInRange } from "./Random";
 
   @author Lars Erik Bratlie <lars00.brat@gmail.com>
 **/
-export function compareArray(array1, array2) {
+export function compareArray<T = any>(
+  array1: Array<T>,
+  array2: Array<T>,
+  compFunc?: (a: T, b: T) => boolean
+) {
   if (array1.length != array2.length) return false;
   for (let i = 0; i < array1.length; i++) {
-    if (array1[i] != array2[i]) {
+    if (!(compFunc?.(array1[i], array2[i]) ?? array1[i] === array2[i])) {
       return false;
     }
   }

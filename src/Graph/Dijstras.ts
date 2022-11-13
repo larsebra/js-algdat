@@ -1,4 +1,5 @@
 import BinaryHeap from "src/Trees/BinaryHeap";
+import { GraphSearch, GraphSearchNode } from "./GraphSearch";
 
 /**
  * ,---,                             ,-.             ___
@@ -54,7 +55,7 @@ import BinaryHeap from "src/Trees/BinaryHeap";
  *                           and the last element is the goal node. If no path exists it will return a empty array.
  *
  */
-export function dijkstras(fromNode: number, toNode: number, graph) {
+export function dijkstrasArrayGraph(fromNode: number, toNode: number, graph) {
   if (
     !(0 <= fromNode && fromNode < graph.length) ||
     !(0 <= toNode && toNode < graph.length)
@@ -120,6 +121,76 @@ export function dijkstras(fromNode: number, toNode: number, graph) {
         cameFrom: currentNode,
         //How many node hops has been made since the beginning to reach this node
         NrOfHops: currentNode.NrOfHops + 1
+      });
+    }
+  }
+  return shortestPath;
+}
+
+interface DijkstrasInnerNode extends GraphSearchNode<any> {
+  //Total cost so far to currentNode + cost of the path from current to neighbour
+  cost: number;
+  //Store the reference to currentNode, used to find the path taken to this node
+  cameFrom: DijkstrasInnerNode | null;
+}
+export function dijkstras<T = any>(
+  fromNode: GraphSearchNode<T>["identifier"],
+  toNode: GraphSearchNode<T>["identifier"],
+  graph: GraphSearch<T>
+) {
+  //Return array containing numbers indicating the shortest path.
+  let shortestPath = [];
+  //Creating a binary heap as the priority queue.
+  const priQueue = new BinaryHeap<DijkstrasInnerNode>(50, (a, b) => {
+    //The less than operator here will cause equal cost nodes to be visited in a fifo manner.
+    return a.cost > b.cost ? -1 : 1;
+  });
+  //The node currently visited.
+  let currentNode: DijkstrasInnerNode = null;
+  //A boolean array used to mark visited node
+  const opened: Record<string, boolean> = {};
+
+  //Add the first node(source) to the queue.
+  priQueue.add({
+    identifier: fromNode,
+    edgeCost: 0,
+    cost: 0,
+    cameFrom: null
+  });
+
+  while (!priQueue.isEmpty()) {
+    //Remove the node with the shortest distance from source and visit it.
+    currentNode = priQueue.remove();
+    //No need to visit a node two times.
+    if (opened[currentNode.identifier]) {
+      continue;
+    }
+
+    //Mark as visited
+    opened[currentNode.identifier] = true;
+
+    //Check if currentNode is the goal node, the shortest path must be reached.
+    if (graph.isEqual(currentNode.identifier, toNode)) {
+      //Calculate the shortest path by traversing the found path backwards
+      let fromNode = currentNode;
+      //Add each node in the path to the return array.
+      while (fromNode !== null) {
+        shortestPath.push(fromNode.identifier);
+        fromNode = fromNode.cameFrom;
+      }
+      break;
+    }
+
+    const neighbours = graph.getNeighbours(currentNode);
+    //Open Neighbour nodes and put them in the priority queue if they do not exists in it
+    for (let n of neighbours) {
+      priQueue.add({
+        //Neighbour node nr relative to currentNode
+        ...n,
+        //Total cost so far to currentNode + cost of the path from current to neighbour
+        cost: currentNode.cost + n.edgeCost,
+        //Store the reference to currentNode, used to find the path taken to this node
+        cameFrom: currentNode
       });
     }
   }

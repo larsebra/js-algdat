@@ -1,7 +1,7 @@
-import Node from "./Node.js"
+import Node from "./Node.js";
 
 class ListNode<T> extends Node<T> {
-  next:ListNode<T>;
+  next: ListNode<T>;
   /**
    * constructor - Sets next and value for this node
    *
@@ -9,7 +9,7 @@ class ListNode<T> extends Node<T> {
    * @param  {DoubleLinkedListNode} next  next pointer
    * @return {Void}       nothing
    */
-  constructor(value:T, next?:ListNode<T>){
+  constructor(value: T, next?: ListNode<T>) {
     super(value);
     this.next = next ?? null;
   }
@@ -20,7 +20,7 @@ class ListNode<T> extends Node<T> {
    * @param  {ListNode} next The next node in the list
    * @return {ListNode}      description
    */
-  setNext(next){
+  setNext(next) {
     this.next = next;
   }
 
@@ -29,7 +29,7 @@ class ListNode<T> extends Node<T> {
    *
    * @return {ListNode}  returns the next node in line.
    */
-  getNext(){
+  getNext() {
     return this.next;
   }
 }
