@@ -1,13 +1,6 @@
-## Getting Started
+# JS algdat, a js algorithm library written in ts
 
-### Cloning the repo
+##About
 
-```sh
-bun create blank ./NAME_HERE
-```
+Algorithms and data structures implemented in typescript. The motivation for this project is to make a good library containing well known data structures and algorithms. The library is under construction and in the start phase. More information on how to use it, CS theory and other details will come.
 
-### Execute a file (eg. src/index.js)
-    
-```sh
-bun run ./src/index.js
-```
